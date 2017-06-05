@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Chapter 3](#Chap3)
+- [Chapter 4](#Chap4)
 
 ## Chap3
 
@@ -33,3 +34,10 @@
   - rollback db:
     - ```rails db:rollback```
 - generating controller also update ```routes.rb``` file automatically
+
+---
+
+
+
+## Chap4
+
