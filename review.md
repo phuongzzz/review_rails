@@ -7,6 +7,7 @@
 - [Chapter 5](#chapter-5)
 - [Chapter 6](#chapter-6)
 - [Chapter 7](#chapter-7)
+- [Chapter 8](#chapter-8)
 
 ## Chapter 3
 
@@ -644,6 +645,68 @@ General idea:
 ---
 
 ### 7.5 Professional-grade deployment (omitted)
+
+---
+
+## Chapter 8
+
+- Destination
+  - login / logout functionality
+  - maintain login state until browser closed
+  - customize site / implement authorization based on login status
+- Techniques:
+  - ```session``` method: create temporary session (expire when browser close)
+  - using just ```named routes```
+  - ```rails routes``` for listing all routes
+
+---
+
+### 8.1 Sessions
+
+- HTTP is stateless protocol
+  - next request is unable to use any information from previos requests
+- => We must use session
+- In Rails, most common techniques for implementing session is *cookies*
+  - *cookies* is a *small text* on user's browser, persist from one page to the next => store information, retrieve logged user in db
+- General idea:
+  - visit login page	
+    - render a form for ***new session***
+  - logging in
+    - create ***session***
+  - loggin out
+    - destroy ***session***
+- ```Sessions``` resource will use *cookies* for persist data
+- => We need to create 
+  - ```Sessions``` controller
+  - login form
+  - relevant controller actions
+
+---
+
+#### 8.1.1 Session controller
+
+- General idea (```Sessions``` controller)
+  - login form: handled by ```new``` action
+    - logging in: send ```POST``` to ```create``` action
+    - logging out: send ```DELETE``` to ```destroy``` action
+- How?
+  - create new ```Sessions``` controller: ```rg controller Sessions new```
+  - just using named routes => update in ```routes.rb``` file
+    - update generated test file
+    - run ```rails routes``` for listing all routes
+
+#### 8.1.2 Login form
+
+- Problems
+  - When login error, we can't use error_messages partial, why?
+    - because this just work with Active Record object
+    - => Solution: use ```flash``` :)
+  - When creating form, we don't have ```Session``` model, so can't use ```form_for``` like before
+    - because Rails don't know action of the form should be ```POST``` and the URL of that form
+    - => Solution: use ```form_for``` with name of *resource* and corresponding URL:
+      - ```form_for(:session, url: login_path)```
+
+#### 8.1.3 Finding and authenticating a user (haven't done yet :( )
 
 
 
