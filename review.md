@@ -2,9 +2,9 @@
 
 ## Table of contents
 
-- [Chapter 3](#Chapter 3)
+- [Chapter 3](#Chap3)
 
-## Chapter 3
+## Chap3
 
 ---
 
