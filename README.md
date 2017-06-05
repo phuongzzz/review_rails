@@ -1,2 +1,2 @@
 # Ruby on Rails tutorial reivew
-  - 1 branch / chapter, example: branch ```chapter3``` is review for chapter 3
+- Click ```review.md``` to read my summary, many thanks :)
