@@ -476,6 +476,7 @@ Techniques:
 - ```user.errors.any?```
 - ```count``` method
 - ```assert_no_difference```
+- ```redirect_to```
 
 General ideas:
 
@@ -596,7 +597,54 @@ General ideas:
   - use ```assert_no_difference``` method to check before and after creating ```User```
   - test pass :)
   - *Ex*: write test for error divs :D
-  - ​
+
+
+### 7.4 Successful signup
+
+General idea:
+
+- save the user
+- success -> user's information will be written to db
+- redirect the browser to show user's profile
+
+#### 7.4.1 The finished signup form
+
+- Problem: submit -> freeze form
+- Why?
+  - rails default behavior is render corresponding view
+  - but here, there's not a view template for create action
+- Solution
+  - Redirect to another page when creation is successfully
+  - ```redirect_to @user```
+    - Rails infers ```redirect_to @user``` to ```user_url(@user)```
+
+#### 7.4.2 The flash
+
+- ```flash[:success] = "Welcome to the Sample App!"```
+- display message on the first page after redirect, how?
+  - iterate through flash (flash is a hash)
+  - insert all relevant messages into the site layout
+- => the rest is easy!
+
+#### 7.4.3 The first signup
+
+- reset db: ```rails db:migrate:reset```
+- restart server
+- test by hand for signup new user
+
+#### 7.4.4 Test for valid submission
+
+- General idea
+  - Similar to invalid submission: check the db's contents
+  - different: 
+    - use ```assert_different```
+    - ```follow_redirect!```
+    - test for ```flash```
+
+---
+
+### 7.5 Professional-grade deployment (omitted)
+
 
 
 
