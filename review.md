@@ -2,10 +2,10 @@
 
 ## Table of contents
 
-- [Chapter 3](#Chap3)
-- [Chapter 4](#Chap4)
+- [Chapter 3](#c3)
+- [Chapter 4](#c4)
 
-## Chap3
+## C3
 
 ---
 
@@ -39,5 +39,5 @@
 
 
 
-## Chap4
+## C4
 
