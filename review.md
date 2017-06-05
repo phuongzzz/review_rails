@@ -6,6 +6,7 @@
 - [Chapter 4](#chapter-4)
 - [Chapter 5](#chapter-5)
 - [Chapter 6](#chapter-6)
+- [Chapter 7](#chapter-7)
 
 ## Chapter 3
 
@@ -264,6 +265,7 @@ Techniques:
   - write test first
   - test fail -> fix
   - test passed :)
+- ```has_secure_password```
 
 ### 6.1 User model
 
@@ -454,6 +456,153 @@ How to authenticate?
 ---
 
 ### 6.4 Conclusion
+
+---
+
+## Chapter 7
+
+Techniques:
+
+- ```debug``` method
+- ```params``` variable
+- ```sass mixin```
+- Rest in Rails, ```resource``` in Rails
+- How to retrive a user and display to view
+- ```Digest::MD5::hexdigest```
+- ```form_for```
+- Strong params
+- ```private``` method
+- ```pluralize```
+- ```user.errors.any?```
+- ```count``` method
+- ```assert_no_difference```
+
+General ideas:
+
+- use HTML form to submit user signup information
+- use these information to create new user and save attributes to db
+- after signup -> render profile page with newly user's information
+
+### 7.1 Showing users
+
+- Destination
+  - make page to display user's information
+  - just username and profile picture
+
+#### 7.1.1 Debug Rails environments
+
+- add ```<%= debug(params) if Rails.env.development? %>``` in ```application.html.erb``` file
+  - 3 envs in Rails:
+    - development
+    - test
+    - production
+
+#### 7.1.2 A Users resource
+
+- *Resource*: data can be *create, read, update, delete* via *HTTP* method
+  - in REST, resource can be referenced using resource *name* and unique *id*:
+    - ```/users/1```
+- How to make a data become *resource*?
+  - ```resources :users``` to ```routes.rb``` file
+    - this will add all actions needed for Restful Users resource
+    - add large number of named routes
+  - visit ```/users/1``` -> error?
+    - create ```show``` template for user
+      - ```<%= @user.name %>, <%= @user.email %>```
+    - how to get ```@user```?
+      - in ```show``` action, define ```@user``` variable
+        - ```@user = User.find(params[:id])```
+        - ```params``` will return value based on URL
+
+#### 7.1.3 Debugger
+
+- ```debugger```
+
+#### 7.1.4 Gravatar image and sidebar
+
+- define ```gravatar_for``` helper
+- any *helper* in any helper file are available to any *view*
+- but we *should* define helper with appropriate controller
+
+---
+
+### 7.2 Signup form
+
+- make signup page for our site
+
+#### 7.2.1 ```form_for```
+
+- Create ```User``` object for ```form-for```
+  - ```@user = User.new```
+  - go to ```new.html.erb```, create ```form``` using ```form_for```
+
+#### 7.2.2 Signup form HTML
+
+---
+
+### 7.3 Unsuccessful signup
+
+#### 7.3.1 A working form
+
+- ```post``` action to ```/users``` will handled by ```create``` actions in controller
+- how?
+  - update ```create``` action in ```Users``` controller
+- submitting some invalid data -> error -> inspecting params
+
+#### 7.3.2 Strong params
+
+- Problem: previous solution will pass *all* user's submitted data
+  - some additional data can be submitted to user
+- => We can not let user submit all data 
+- Solution
+  - Using *strong params*
+    - specify which params are *required* and *permitted*
+  - In this case
+    - *require*: ```params``` hash must have ```user``` hash
+    - permitted: ```name, email, password, password_confirmation```
+    - => it will return
+      - ```params``` with *permitted* attributes
+      - ```error``` if ```:user``` is missing
+- How?
+  - create ```user_params``` method which return correct hash
+    - make this method ```private```
+  - use this method in ```create``` action
+
+#### 7.3.3 Signup error messages
+
+- Problem: show error message if it has
+- Solution:
+  - create ```error_messages``` partials
+  - ```if @user.errors.any?``` -> render 
+  - ```pluralize``` method
+    - ```pluralize(5, "error")```
+      - 1st arg: number
+      - 2nd arg: singular
+  - ```count``` method
+
+---
+
+#### 7.3.4 Test for invalid submit
+
+- Using integration test
+- General idea:
+  - verify that clicking signup button doesn't create new user when form contains errors
+  - how to know if it created?
+    - => check the User.count before and after post :)
+- How?
+  - generate test file: ```rails generate integration_test users_signup```
+  - get ```signup_path```
+  - ```POST``` some data to ```users_path```
+  - use ```assert_no_difference``` method to check before and after creating ```User```
+  - test pass :)
+  - *Ex*: write test for error divs :D
+  - ​
+
+
+
+
+
+
 
 
 
