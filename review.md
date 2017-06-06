@@ -19,12 +19,30 @@
 Quick summary:
 
 - Generators in Rails:
-  - `controller`
+  - `controller` generate
+    - controller file
+    - action view template
+    - controller test file
+    - controller helper
+    - assets (js, css)
   - `model`
+    - migration file
+    - model file
+    - model test file
+    - fixtures for model
   - `integration_test`
+    - integration test file
   - `scaffold`
+    - MVC assets
+    - resource routes
+    - migration file
   - `mailer`
+    - mailer file
+    - mailer erb template file
+    - mailer preview file
+    - mailer test file
   - `migration`
+    - migration file
 - Generator options:
   - `-h`: help
   - `-s`: skip existing file(s)
