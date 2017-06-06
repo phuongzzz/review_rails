@@ -9,6 +9,7 @@
 - [Chapter 7](#chapter-7)
 - [Chapter 8](#chapter-8)
 - [Chapter 9](#chapter-9)
+- [Chapter 10](#chapter-10)
 
 ## Chapter 3
 
@@ -820,11 +821,168 @@ Techniques:
 
 #### 9.1.2 Login with remembering
 
+---
+
+## Chapter 10
+
+Techiques:
+
+- ```before_action``` filter
+- faking sample data
+- pagination
+
+---
+
+### 10.1 Updating users
+
+#### 10.1.1 Edit form
+
+- handled by ```edit``` action
+  - get user from db (by ```id``` from params)
+  - solution: use ```@user = User.find_by```
+  - create template using ```form_for```
+    - use ```POST``` with *hidden* input field to fake ```PATCH``` request
+  - how to know when *update* or *create* new?
+    - when create form with ```form_for```, Rails check ```@user.new_record?```
+      - ```true``` => ```POST```
+      - ```false``` => ```PATCH```
+
+#### 10.1.2 Unsuccessful edit
+
+- handled by ```update``` method
+  - read from ```params``` hash
+    - if ```update_attributes``` with ```user_params``` (*strong params*)
+      - ```flash```
+      - ```redirect_to @user```
+    - else
+      - ```render 'edit'```
+
+#### 10.1.3 Unsuccessful edit test
+
+- using *integration test*
+- strategy:
+  - go to edit path
+  - assert template
+  - post invalid data
+  - assert template
+
+#### 10.1.4 Successful edit
+
+- TDD: strategy
+  - go to edit path
+  - assert template
+  - post valid data
+  - assert ```flash```
+  - assert ```redirect```
+  - reload @user
+  - assert equal
+  - *set allow nil to password validation, because update password is not required*
+
+---
+
+### 10.2 Authorization
+
+#### 10.2.1 Requiring logged-in users
+
+- ```before_action```
+  - arrange particular method to be called before some action
+- to require login before ```edit``` and ```update``` action:
+  - ```  before_action :logged_in_user, only: [:edit, :update]```
+  - ```logged_in_user``` check if user is logged in or not, if not, ```flash``` and redirect
+    - how?
+      - use ```logged_in``` helper :)
+
+#### 10.2.2 Requiring right user
+
+- Problem: any logged user can change other's information
+- => solution: use ```before_action``` *again*:
+  - ```  before_action :correct_user,   only: [:edit, :update]```
+  - ```correct_user```:
+    - find ```@user``` by ```id``` in ```params```
+    - redirect to ```root_url``` if ```@user``` !== ```current_user```
+
+#### 10.2.3 Friendly fowarding
+
+- Problem:
+  - user should go to their intended destination
+- => Solution:
+  - store location of requested page somewhere
+  - redirect to that location
+- How?
+  - create 2 methods:
+    - ```store_location```
+    - ```redirect_back_or```
+  - in ```SessionHelper```, why?
+    - because we'll save location in session
+  - how to get url?
+    - use ```request.original_url``` if ```request.get```
+  - call ```store_location``` when login fail (```user_controller```)
+  - call ```redirect_back_or user``` (```user``` is default) when login success (```sessions_controller```)
+
+
+---
+
+### 10.3 Show all users
+
+#### 10.3.1 Users index
+
+- Problem
+  - Prevent unregistered user to view ```Users``` page
+  - Solution
+    - use ```before_action``` with ```index```, which ```logged_in_user```
+- Show users
+  - ```index``` action: ```@users = User.all```
+  - make view template to show ```@users``` (use ```each``` method)
+
+#### 10.3.2 Sample users
+
+- Problem: too little user :(
+  - Solution: fake more users
+  - How?
+    - use ```faker``` gem
+    - in ```seed.rb``` file, write code for faking data
+    - ```migrate:reset``` and ```seed``` db
+
+#### 10.3.3 Pagination
+
+- Problem: too many user, long scroll page
+  - Solution: use ```will_paginate``` gem
+  - use ```will_paginate``` in template view
+  - update in ```index``` action
+
+#### 10.3.4 Users index test
+
+#### 10.3.5 Refactor
+
+---
+
+### 10.4 Delete users
+
+#### 10.4.1 Admin users
+
+- Problem: only admin can delete user
+
+  - Solution:
+    - add ```admin```, type ```boolean``` attribute to ```users``` table
+  - How:
+    - ```generate``` migration
+    - ```migrate``` db
+    - *strong params* will deny ```admin``` params if it has
 
 
 
+#### 10.4.2 ```destroy``` action
 
+- create link for ```delete```
+- ```destroy``` action:
+  - find user by ```id``` then delete him
+  - ```flash```
+  - ```redirect_to users_url```
+  - create ```before_action``` ```admin_user``` filter for ```destroy```
 
+#### 10.4.3 ```destroy``` test
 
+---
 
+### 10.5 Conclusion
 
