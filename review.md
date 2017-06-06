@@ -10,6 +10,7 @@
 - [Chapter 8](#chapter-8)
 - [Chapter 9](#chapter-9)
 - [Chapter 10](#chapter-10)
+- [Chapter 11](#chapter-11)
 
 ## Chapter 3
 
@@ -985,4 +986,74 @@ Techiques:
 ---
 
 ### 10.5 Conclusion
+
+---
+
+## Chapter 11
+
+Strategy:
+
+- Start users in an “unactivated” state.
+- When a user signs up, generate an activation token and corresponding activation digest.
+- Save the activation digest to the database, and then send an email to the user with a link containing the activation token and user’s email address
+- When the user clicks the link, find the user by email address, and then authenticate the token by comparing with the activation digest.
+- If the user is authenticated, change the status from “unactivated” to “activated”.
+
+Techiques:
+
+- ```before_create``` call back
+- Mailer
+- *metaprograming* (haven't understood yet)
+
+---
+
+### 11.1 Account activation resource
+
+#### 11.1.1 Account activation controller
+
+- generate AccountActivations controller
+- update resource in ```routes.rb``` file
+
+#### 11.1.2 Account activation data model
+
+- Similar to remember token
+- add 3 attrs to ```User``` model:
+  - ```activation_digest: string```
+  - ```activated: boolean```
+  - ```activated_at: datetime``` (*optional*)
+- create migration
+- create *virtual* attr: ```activation_token```
+- create ```activation_digest``` method
+- ```before_create``` callback
+
+---
+
+#### 11.2 Account activation email
+
+#### 11.2.1 Mailer template (read rails documentation)
+
+- generate mailer
+- sending email
+
+---
+
+### 11.3 Activating account
+
+#### 11.3.1 Generalizing the ```authenticated``` method
+
+#### 11.3.2 Activation edit action
+
+- Solution
+  - find user by email
+  - check user's existance, active state, authenticated state
+    - if ok => update attr ```activated```, ```login```, ```flash```, ```redirect```
+    - else: ```flash```, ```redirect_to root```
+
+#### 11.3.3 Activation test and refactor
+
+----
+
+### 11.4 Email in production
+
+
 
