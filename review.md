@@ -11,6 +11,8 @@
 - [Chapter 9](#chapter-9)
 - [Chapter 10](#chapter-10)
 - [Chapter 11](#chapter-11)
+- [Chapter 13](#chapter-13)
+- [Chapter 14](#chapter-14)
 
 ## Chapter 3
 
@@ -1190,7 +1192,53 @@ Techiques:
 
 ### 13.4.4 Image upload in production
 
+---
 
+## Chapter 14
+
+Techniques:
+
+- Creating `relationship`
+- `ajax`
+
+### 14.1 The Relationship model
+
+#### 14.1.1 A problem with data model (and solution)
+
+- **Calvin** is following **Hobbes**
+  - => **Hobbes** is *followed* by **Calvin**
+  - **Calvin** is *follower*
+    - ```calvin.following``` => return who **calvin** is following
+  - **Hobbes** is *followed*
+    - => ```hobbes.followers``` => return *followers* of **hobbes**
+- Suggestion:
+  - make ```following``` table:
+    - ```user.following``` return *collection of users*
+      - => each row in ```following``` table need to be a **user**
+      - => each row in ```following``` table need ```following_id``` and ```followed_id``` to create association
+- Problem:
+  - redundant data (because ```following``` table has all ```users``` table's content)
+  - need to create very similar ```followers``` table
+  - when updating ```username```, must update in ```following, followers, user``` table
+- Solution:
+  - how to find proper model?
+    - how we might implement *following* action?
+    - => think about *resources* in REST
+  - when **user 1** follows **users 2**, what's being created?
+  - when **user 1** unfollows **users 2**, what's being destroyed?
+  - => application should create or destroy a **relationship**
+- => A user may has many **relationships**, has many **following** and **followers** through **relationship**
+- **Calvin** is following **Hobbes** (not vice versa)
+  - => **Calvin** has *active* **relationship**
+  - => **Hobbes** has *passive* **relationship**
+- => using **active relationship** to get list of followed user
+
+=> Generaing Relationship model with `follower_id` and `followed_id`
+
+#### 14.1.2 User/relationship associations
+
+- Solution:
+  - ​
 
 
 
