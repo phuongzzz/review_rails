@@ -8,6 +8,7 @@
 - [Chapter 6](#chapter-6)
 - [Chapter 7](#chapter-7)
 - [Chapter 8](#chapter-8)
+- [Chapter 9](#chapter-9)
 
 ## Chapter 3
 
@@ -782,6 +783,44 @@ General idea:
 ---
 
 ### 8.4 Conclusion
+
+----
+
+## Chapter 9
+
+Techniques:
+
+- using ```cookies```
+
+---
+
+#### 9.1 Remember me
+
+#### 9.1.1 Remember token and digest
+
+- Strategy:
+  - Create a random string of digits for use as a remember token.
+  - Place the token in the browser cookies with an expiration date far in the future.
+  - Save the hash digest of the token to the database.
+  - Place an encrypted version of the user’s id in the browser cookies.
+  - When presented with a cookie containing a persistent user id, find the user in the database using the given id, and verify that the remember token cookie matches the associated hash digest from the database.
+- How?
+  - add ```remember_digest``` to User's model
+  - generate new token for user by ```SecureRandom.urlsafe_base64```
+  - make ```user.remember``` method to:
+    - associate remember token with user
+    - save remember digest to db
+    - problem:
+      - ```User``` model don't have remember_token attribute
+      - => solution: the same as the password => create a *virtual* ```remember_token``` attr
+        - how?
+          - use ```attr_accessor :remember_token```
+    - assign ```remember_token``` with ```User.new_token``` method
+    - update attribute to *hashed* version of remember_token
+
+#### 9.1.2 Login with remembering
+
+
 
 
 
