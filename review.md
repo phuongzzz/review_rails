@@ -16,6 +16,22 @@
 
 ## Chapter 3
 
+Quick summary:
+
+- There are many kinds of migrations, including:
+  - create new (table, column)
+  - change (column)
+  - delete (table, column)
+  - add (column)
+- migration options:
+  - ```up```
+  - `down`
+  - `reset`
+  - `redo`
+  - `VERSION`
+
+---
+
 Techniques: 
 
 - generating controller 
