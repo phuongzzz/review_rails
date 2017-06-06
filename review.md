@@ -706,11 +706,82 @@ General idea:
     - => Solution: use ```form_for``` with name of *resource* and corresponding URL:
       - ```form_for(:session, url: login_path)```
 
-#### 8.1.3 Finding and authenticating a user (haven't done yet :( )
+#### 8.1.3 Finding and authenticating a user
 
+- handle submit form: ```create``` action
+- read ```session``` hash from ```params``` hash, use ```find_by``` and ```authentication``` method to authenticate user
 
+#### 8.1.4 Rendering flash message
 
+- if login error => ```flash[:danger]```
+- problem: ```flash``` message don't go
+  - because ```render``` is not count at the request
 
+#### 8.1.5 A flash test
+
+- Strategy:
+  - Visit the login path.
+  - Verify that the new sessions form renders properly.
+  - Post to the sessions path with an invalid `params` hash.
+  - Verify that the new sessions form gets re-rendered and that a flash message appears.
+  - Visit another page (such as the Home page).
+  - Verify that the flash message *doesn’t* appear on the new page.
+- => test *fail*
+- => solution to get ```flash``` away: use ```flash.now```
+
+---
+
+#### 8.2 Logging in
+
+- Make ```SessionHelper``` module available to our controllers
+  - in ```application_controller.rb```, add ```include SessionsHelper```
+
+#### 8.2.1 ```log_in``` method
+
+- use ```session``` method from Rails
+- save ```user.id``` to this ```session```
+
+#### 8.2.2 ```current_user```
+
+- Problem: ```User.find(session[:user_id])``` often raise ```exception```
+  - => solution: use ```User.find_by```	(return ```nil```)
+    - problem: this will hit db many times
+      - => solution: store result in instance variable:
+        - ```@current_user ||= User.find_by(id: session[:user_id])```
+
+#### 8.2.3 Change layout links
+
+- in ```session_helper```, define ```logged_in?``` method (check the ```current_user``` is ```nil``` or not)
+- use ```logged_in?``` in template => easy
+  - include bootstrap js in ```application.js```
+
+#### 8.2.4 Tesing layout changes
+
+- Strategy:
+  - Visit the login path.
+  - Post valid information to the sessions path.
+  - Verify that the login link disappears.
+  - Verify that a logout link appears
+  - Verify that a profile link appears.
+
+#### 8.2.5 Login upon signup
+
+- ``` log_in @user``` after save to db
+
+---
+
+#### 8.3 Logout
+
+- define ```log_out``` method from ```SessionHelper```
+  - delete ```user_id``` from session
+  - set ```current_user``` to ```nil```
+- in ```destroy``` method from ```SessionsController```
+  - ```log_out``` user
+  - redirect to ```root_url```
+
+---
+
+### 8.4 Conclusion
 
 
 
