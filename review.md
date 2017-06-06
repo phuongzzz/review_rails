@@ -1055,5 +1055,142 @@ Techiques:
 
 ### 11.4 Email in production
 
+---
+
+## Chapter 12 (skipped)
+
+---
+
+## Chapter 13
+
+Techiques:
+
+- ```references``` type in ActiveRecord
+- ```belongs_to``` and ```has_many```
+- ```associations```
+- *stabby lambda syntax*, *Proc*, *lambda*, *anonymous function*
+- ```build``` method
+
+---
+
+### 13.1 A Micropost model
+
+#### 13.1.1 The basic model
+
+- Micropost has:
+  - ```id```
+  - ```text```
+  - ```user_id```
+  - *2 time fields*
+- ```rails generate model Micropost content:text user:references```
+- migrate db
+
+#### 13.1.2 Micropost validation
+
+- Problem: a Micropost must have ```user_id```
+  - solution: add validation for ```user_id``` in ```Micropost``` model
+- Problem: a Micropost must have ```content```, and < ```140 chars```
+  - solution: *easy* :)
+
+#### 13.1.3 User/Micropost associations
+
+- because the ```Micropost``` is ```belongs_to``` ```User```
+  - instead of ```Micropost.create```, use ```user.microposts.create```
+
+#### 13.1.4 Micropost refinement
+
+- Problem
+  - (1) add refinement for user-micropost association
+  - (2) retrive user's micropost in a specific order
+  - (3) make micropost depends on users
+    - when user is deleted, his mircopost also gone
+- **Default Scope**
+  - How to get all of specific user's micropost: ```@user.microposts```
+  - But this not in specific order...
+  - We want to display the most recent first
+  - How? using **```default_scope```** method
+    - to enforce and order, use ```order``` arg: ```order(created_at: :desc)```
+  - => in ```Micropost``` model, we have: ```  default_scope -> { order(created_at: :desc) }```
+  - => solved (2)
+- **```dependent: :destroy```**
+  - to add dependent on destroy of user to micropost
+  - => solved (3)
+
+---
+
+### 13.2 Showing micropost
+
+#### 13.2.1 Rendering mircopost
+
+- Render controller for ```Microposts```
+- create ```micropost``` partial
+- update ```show``` method in ```UsersController```
+
+#### 13.2.2 Sample micropost
+
+- Using ```faker``` in ```seeds.rb``` file
+
+#### 13.2.3 Profile micropost test
+
+- *using an integration test*
+
+---
+
+### 13.3 Manipulating microposts
+
+- create new resource routes in ```routes.rb``` for microposts, only with ```create``` and ```destroy```
+
+#### 13.3.1 Micropost access control
+
+- apply ```before_action``` for ```create``` and ```destroy```, with ```logged_in_user``` method
+
+#### 13.3.2 Creating micropost
+
+- handled by ```create``` action in ```MicropostController```
+- add *strong_params* for ```micropost```
+- add template partial for adding micropost form
+  - add ```@micropost``` instance var in ```home``` from ```StaticPagesController```
+
+#### 13.3.3 A proto feed
+
+- Each user has feed => create ```feed``` method in ```User``` model
+  - ```feed``` method will select all *microposts* belongs to user:
+    - ```    Micropost.where("user_id = ?", id)```
+  - Use this function => in ```home``` from ```StaticPagesController```
+
+#### 13.3.4 Destroying microposts
+
+- add delete link on template view
+- delete in ```destroy``` action in ```MicropostController```
+- ```redirect```
+- use ```before_aciton``` to allow correct user
+
+#### 13.3.5 Micropost test
+
+---
+
+### 13.4 Micropost images
+
+#### 13.4.1 Basic image upload
+
+- use ```carrierwave, mini_magick, fog``` gem
+- make image uploader: ```rails generate uploader Picture```
+- add migration for adding ```picture:string``` for ```micropost``` model
+- to associate Picture to associate image with model:
+  - ```mount_uploader :picture, PictureUploader```
+    - ```picture```: attr
+    - ```PictureUploader```: class name of the generated uploader
+- add file field: ```    <%= f.file_field :picture %>```
+- update ```micropost_params``` (*strong_params*)
+- display using ```image_tag```
+
+#### 13.4.2 Image validation
+
+#### 13.4.3 Image resizing
+
+### 13.4.4 Image upload in production
+
+
+
 
 
