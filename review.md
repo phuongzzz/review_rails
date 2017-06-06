@@ -18,17 +18,17 @@
 
 Quick summary:
 
-- There are many kinds of migrations, including:
-  - create new (table, column)
-  - change (column)
-  - delete (table, column)
-  - add (column)
-- migration options:
-  - ```up```
-  - `down`
-  - `reset`
-  - `redo`
-  - `VERSION`
+- Generators in Rails:
+  - `controller`
+  - `model`
+  - `integration_test`
+  - `scaffold`
+  - `mailer`
+  - `migration`
+- Generator options:
+  - `-h`: help
+  - `-s`: skip existing file(s)
+  - `-f`: force overwrite existing file(s)
 
 ---
 
