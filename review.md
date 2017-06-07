@@ -140,6 +140,9 @@ Quick summary
     - in model level
     - in db level
       - using `before_save callback`
+- callback:
+  - functions that automatically called at a particular time
+  - `before_save`: will be invoked automatically before Active Record object trying to save to db
 - Add password
   - `has_secure_password`
     - require `password_digest` attribute on model
