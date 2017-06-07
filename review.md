@@ -142,7 +142,12 @@ Quick summary
       - using `before_save callback`
 - callback:
   - functions that automatically called at a particular time
-  - `before_save`: will be invoked automatically before Active Record object trying to save to db
+  - some regular used callback in Rails 
+    - `before_save`: will be invoked automatically before Active Record object trying to save to db
+    - `before_validation`: will be called before object passed through the validation 
+    - `before_create`: will be called before object is saving to the db 
+    - `before_action`: will be called before particular action
+
 - Add password
   - `has_secure_password`
     - require `password_digest` attribute on model
