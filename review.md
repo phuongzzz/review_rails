@@ -144,7 +144,8 @@ Quick summary
     - in db level
       - using `before_save callback`
 - callback:
-  - functions that automatically called at a particular point in the lifecycle of Active Record object
+  - hooks into the lifecycle of Active Record object
+  - callback allow triggering logic before/after of object manipulation
   - some regular used callback in Rails
     - `before_save`: will be invoked automatically before Active Record object trying to save to db
     - `before_validation`: will be called before object passed through the validation
