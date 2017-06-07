@@ -1,4 +1,4 @@
-# Review Rails tutorial
+"# Review Rails tutorial
 
 ## Table of contents
 
@@ -103,7 +103,6 @@ Quick summary
   - describe changes for db
 - `schema.rb`: keep current state of db
 
-
 - Active Record methods
   - `new` (create new AR object, in memory)
     - return `nil` if no arg
@@ -130,8 +129,8 @@ Quick summary
     - no validation
     - update single validate
 - Model validation:
-  - `presence:boolean`
-    - validate the existance of model's attributes
+  - `presence: boolean`
+    - validate the existence of model's attributes
   - `length`
     - validate the `maximum` and the `minimum` length of model's attributes
   - `format`
@@ -145,7 +144,7 @@ Quick summary
     - in db level
       - using `before_save callback`
 - callback:
-  - functions that automatically called at a particular time
+  - functions that automatically called at a particular point in the lifecycle of Active Record object
   - some regular used callback in Rails
     - `before_save`: will be invoked automatically before Active Record object trying to save to db
     - `before_validation`: will be called before object passed through the validation
@@ -155,7 +154,7 @@ Quick summary
 - Add password
   - `has_secure_password`
     - require `password_digest` attribute on model
-    - must have `presence` validation for password 
+    - must have `presence` validation for password
     - generate 2 virtual attributes: `password` and `password_confirmation`
     - `authenticate` method
       - return `false` when fail
@@ -177,8 +176,6 @@ Quick summary:
   - represent data as *resource*
   - can CRUD via HTTP method
   - resource can be referenced by `/resource_name/:id`
-
-
 - `debugger`
 - `render`
   - get the corresponding template, not count as request
@@ -187,6 +184,15 @@ Quick summary:
 - `form_for`
   - take an `Active Record` object
   - build form using object's attributes
+  - called method correspoding to HTML form element -> return code for that element for creating object's attributes
+  - create a `hash` via `params` variable for creating user using form's value
+  - Differences between `form_for` and `form_tag`
+    - `form_for` is used when creating specific model or resource
+      - => used with Active Record object (model)
+      - no need to specify `url` and `method`
+    - `form_tag` is used when creating basic form
+      - used for non-model form (like search form)
+      - need to specify `url` and `method`
 - Strong params (security purpose)
   - `require` which attributes needed
   - `permit` attributes
