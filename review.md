@@ -126,7 +126,7 @@ Quick summary
     - validate
     - return `boolean`
     - update many attributes
-  - `update_attributes`:
+  - `update_attribute`:
     - no validation
     - update single validate
 - Model validation:
