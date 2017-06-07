@@ -130,27 +130,32 @@ Quick summary
     - no validation
     - update single validate
 - Model validation:
-  - `presence`
+  - `presence:boolean`
+    - validate the existance of model's attributes
   - `length`
-    - `maximum`
-    - `minimum`
+    - validate the `maximum` and the `minimum` length of model's attributes
   - `format`
-    - `regular expression`
+    - validate the formation of object's attribute, using regular expression
   - `uniqueness`
+    - validate the uniqueness of model's attributes
+      - options:
+        - `scope`: specify one more attributes to limit uniqueness check
+        - `case_sensitive`: distinguish between uppercase or not
     - in model level
     - in db level
       - using `before_save callback`
 - callback:
   - functions that automatically called at a particular time
-  - some regular used callback in Rails 
+  - some regular used callback in Rails
     - `before_save`: will be invoked automatically before Active Record object trying to save to db
-    - `before_validation`: will be called before object passed through the validation 
-    - `before_create`: will be called before object is saving to the db 
+    - `before_validation`: will be called before object passed through the validation
+    - `before_create`: will be called before object is saving to the db
     - `before_action`: will be called before particular action
 
 - Add password
   - `has_secure_password`
     - require `password_digest` attribute on model
+    - must have `presence` validation for password 
     - generate 2 virtual attributes: `password` and `password_confirmation`
     - `authenticate` method
       - return `false` when fail
@@ -162,7 +167,7 @@ Quick summary
 
 Quick summary:
 
-- `debug` method 
+- `debug` method
 - `params` hash
 - Rails env
   - `development`
@@ -214,7 +219,7 @@ Quick summary:
 - `self`
   - access for current model's attributes
 - `cookies` method
-  - set value: 
+  - set value:
     - `cookies[:key] = value`
     - `cookies.permanent[:key] = value`
     - *more secure*: `cookies.signed[:key] = value`
@@ -291,7 +296,7 @@ Techiques:
 - upload image:
   - `carrierwave, mini_magick, fog` gem
   - make uploader using CarrierWave (CW) functionality: `rails generate uploader Picture`
-  - image upload with CW can associate with model by 
+  - image upload with CW can associate with model by
     - `picture:string` field in Active Record model
     - `mount_uploader :picture, PictureUploader`
   - upload form:
