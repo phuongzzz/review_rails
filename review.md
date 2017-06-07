@@ -166,21 +166,10 @@ Quick summary
 
 Quick summary:
 
-- `debug` method
-- `params` hash
-- Rails env
-  - `development`
-  - `test`
-  - `production`
 - REST in Rails
   - represent data as *resource*
   - can CRUD via HTTP method
   - resource can be referenced by `/resource_name/:id`
-- `debugger`
-- `render`
-  - get the corresponding template, not count as request
-- `redirect`
-  - get the corresponding template, count as HTTP request
 - `form_for`
   - take an `Active Record` object
   - build form using object's attributes
@@ -196,8 +185,6 @@ Quick summary:
 - Strong params (security purpose)
   - `require` which attributes needed
   - `permit` attributes
-- `pluralize` method
-- `redirect_to` and `flash`
 
 ---
 
@@ -222,8 +209,6 @@ Quick summary:
 
 - virtual attributes: attributes in *model* level, not has corresponding *database* column
   - create one: `attr_accessor :attribute_name`
-- `self`
-  - access for current model's attributes
 - `cookies` method
   - set value:
     - `cookies[:key] = value`
@@ -246,11 +231,8 @@ Quick summary:
   - `object.new_record?`
     - `true`: `POST` => create
     - `false`: `PATCH` => update
-- `before_action` callback
-  - specify which function should be run before some actions
-- foward user:
-  - get current url: `request.original_url`
-  - get current request method: `request.get?`
+- get current url: `request.original_url`
+- get current request method: `request.get?`
 - faking sample data:
   - `faker` gem
 - pagination:
@@ -286,13 +268,12 @@ Quick summary
 
 ## Chapter 13
 
-Techiques:
+Quick summary:
 
 - `references` type in `Active Record` data type
 - `belongs_to` and `has_many` relationships
 - association between models:
   - example: `micropost belongs_to user` and `user has_many microposts`
-    - create new micropost: `user.micropost.create` or `user.micropost.build` or `user.micropost.create!`
 - default scope:
   - option in SQL's statements
 - dependent:
@@ -301,13 +282,6 @@ Techiques:
   - `model_name.where([sql_statement])`
 - upload image:
   - `carrierwave, mini_magick, fog` gem
-  - make uploader using CarrierWave (CW) functionality: `rails generate uploader Picture`
-  - image upload with CW can associate with model by
-    - `picture:string` field in Active Record model
-    - `mount_uploader :picture, PictureUploader`
-  - upload form:
-    - `file_field :picture`
-    - *picture* is an attribute above
 - jQuery/Javascript
 
 ---
@@ -316,10 +290,14 @@ Techiques:
 
 Quick summary
 
-- nested resource
+- nested routes
   - config in `routes.rb`
-
-
+- `has_many :through`:
+  - allow modelling of complicated data relationships
+- `has_many` method:
+  - take several option arguments:
+    - object's class name
+    - foreign key
 - `ajax`:
   - allow web page send requests to server without leaving page
   - how to use:
